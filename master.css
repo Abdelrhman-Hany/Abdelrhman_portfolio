@@ -58,6 +58,10 @@ img {
     font-weight: 700;
     text-align: center;
     margin-bottom: 60px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 /* ========== Buttons ========== */
@@ -311,15 +315,16 @@ img {
 }
 
 .about-image-card {
-    background: var(--background);
-    padding: 16px;
-    border-radius: 16px;
-    border: 1px solid var(--border);
+    background: transparent;
+    padding: 10px;
+    border-radius: 18px;
+    border: 3px solid #7b2cff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .about-img {
     width: 100%;
-    border-radius: 12px;
+    border-radius: 14px;
 }
 
 .about-text {
@@ -334,28 +339,40 @@ img {
 
 .tab-buttons {
     display: flex;
-    gap: 16px;
+    justify-content: space-between;
+    gap: 10px;
     margin-bottom: 24px;
+    background: #1a1a22;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    padding: 6px;
+    overflow: hidden;
 }
 
 .tab-btn {
-    padding: 12px 24px;
-    background: var(--background);
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    flex: 1;
+    padding: 10px 0;
+    background: transparent;
+    border: none;
+    border-radius: 999px;
     color: var(--muted);
     cursor: pointer;
     font-family: inherit;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
+    text-align: center;
 }
 
-    .tab-btn:hover,
-    .tab-btn.active {
-        background: linear-gradient(135deg, var(--primary), var(--primary-light));
-        border-color: transparent;
-        color: var(--foreground);
-    }
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--foreground);
+}
+
+.tab-btn.active {
+    background: #0b0b0f;
+    color: var(--foreground);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
 
 .tab-content {
     display: none;
@@ -387,7 +404,10 @@ img {
 .skill-category h4 {
     font-size: 1rem;
     margin-bottom: 12px;
-    color: var(--foreground);
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .skill-list {
@@ -397,10 +417,21 @@ img {
 }
 
     .skill-list li {
-        margin-bottom: 8px;
-        color: var(--muted);
+        position: relative;
+        margin-bottom: 12px;
+        color: var(--foreground);
         line-height: 1.6;
+        padding-left: 20px;
     }
+
+        .skill-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
 
     .skill-list strong {
         color: var(--foreground);
@@ -461,19 +492,25 @@ img {
 }
 
 .service-card {
-    background: var(--card);
-    padding: 40px 32px;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    text-align: center;
-    transition: all 0.3s ease;
+    background:var(--card);
+    padding:40px 32px;
+    border-radius:16px;
+    border:1px solid var(--border);
+    text-align:center;
+    transition:all .35s ease;
 }
 
-    .service-card:hover {
-        transform: translateY(-8px);
-        border-color: var(--primary);
-        box-shadow: 0 20px 40px rgba(123, 44, 255, 0.15);
-    }
+.services-grid:hover .service-card{
+    opacity:0.35;
+    transform:scale(.95);
+}
+
+.services-grid .service-card:hover{
+    opacity:1;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(123, 44, 255, 0.4);
+    border-color:#7b2cff;
+}
 
 .service-icon {
     width: 64px;
@@ -486,11 +523,11 @@ img {
     justify-content: center;
 }
 
-    .service-icon svg {
-        width: 32px;
-        height: 32px;
-        stroke: var(--foreground);
-    }
+.service-icon svg {
+    width: 32px;
+    height: 32px;
+    stroke: var(--foreground);
+}
 
 .service-card h3 {
     font-size: 1.25rem;
@@ -502,7 +539,6 @@ img {
     font-size: 0.9rem;
     line-height: 1.7;
 }
-
 /* ========== Portfolio Section ========== */
 .portfolio {
     background: var(--card);
@@ -774,7 +810,7 @@ img {
     }
 
     .about-image-card {
-        max-width: 350px;
+        max-width: 400px;
         margin: 0 auto;
     }
 
@@ -830,7 +866,7 @@ img {
         flex-wrap: wrap;
     }
 
-    .tab-btn {
+    .tabs .tab-btn {
         padding: 10px 16px;
         font-size: 0.875rem;
     }
