@@ -154,30 +154,33 @@ form.addEventListener("submit", async function(e) {
 });
 
 // function sendEmail()
-(function(){
-emailjs.init({
-  publicKey: "LK8Qn8Y6qTbAVDwho",
-});
+document.addEventListener("DOMContentLoaded", function () {
 
-const form = document.getElementById("contactForm");
+  (function () {
+    emailjs.init({
+      publicKey: "LK8Qn8Y6qTbAVDwho",
+    });
+  })();
 
-form.addEventListener("submit", function(e){
-e.preventDefault();
+  const form = document.getElementById("contactForm");
 
-emailjs.sendForm(
-"service_t4ylfns",
-"template_e0jdmme",
-this
-).then(function(){
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-alert("Message sent successfully!");
-form.reset();
-
-}, function(error){
-
-console.log(error);
-alert("Failed to send message");
-
-});
+    emailjs.sendForm(
+      "service_t4ylfns",
+      "template_e0jdmme",
+      this
+    ).then(
+      function () {
+        alert("Message sent successfully!");
+        form.reset();
+      },
+      function (error) {
+        console.log(error);
+        alert("Failed to send message");
+      }
+    );
+  });
 
 });
