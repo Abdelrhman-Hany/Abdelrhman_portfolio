@@ -152,3 +152,31 @@ form.addEventListener("submit", async function(e) {
     alert("Something went wrong");
   }
 });
+
+// function sendEmail()
+(function(){
+emailjs.init("LK8Qn8Y6qTbAVDwho");
+})();
+
+const form = document.getElementById("contactForm");
+
+form.addEventListener("submit", function(e){
+e.preventDefault();
+
+emailjs.sendForm(
+"service_t4ylfns",
+"template_e0jdmme",
+this
+).then(function(){
+
+alert("Message sent successfully!");
+form.reset();
+
+}, function(error){
+
+console.log(error);
+alert("Failed to send message");
+
+});
+
+});
