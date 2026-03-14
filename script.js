@@ -153,39 +153,3 @@ form.addEventListener("submit", async function(e) {
   }
 });
 // google form
-const form = document.getElementById("contactForm");
-
-const form = document.getElementById("contactForm");
-
-if (form) {
-
-  form.addEventListener("submit", function(e){
-
-    e.preventDefault();
-
-    const data = {
-      name: form.name.value,
-      email: form.email.value,
-      message: form.message.value
-    };
-
-    fetch("PUT_SCRIPT_URL_HERE", {
-      method: "POST",
-      body: JSON.stringify(data)
-    })
-    .then(res => res.text())
-    .then(() => {
-
-      alert("Message sent successfully!");
-      form.reset();
-
-    })
-    .catch(() => {
-
-      alert("Something went wrong");
-
-    });
-
-  });
-
-}
