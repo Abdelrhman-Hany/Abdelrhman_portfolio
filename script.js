@@ -128,3 +128,27 @@ document.querySelectorAll('.service-card, .portfolio-card, .contact-item').forEa
   el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
   observer.observe(el);
 });
+
+// ========= Contact Form Submission with Fetch API ==========
+const form = document.getElementById("contactForm");
+
+form.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const data = new FormData(form);
+
+  const response = await fetch("https://formspree.io/f/mzdjvjpk", {
+    method: "POST",
+    body: data,
+    headers: {
+      Accept: "application/json"
+    }
+  });
+
+  if (response.ok) {
+    alert("Message sent successfully!");
+    form.reset();
+  } else {
+    alert("Something went wrong");
+  }
+});
