@@ -152,35 +152,34 @@ form.addEventListener("submit", async function(e) {
     alert("Something went wrong");
   }
 });
+// google form
+const form = document.getElementById("contactForm");
 
-// function sendEmail()
-document.addEventListener("DOMContentLoaded", function () {
+form.addEventListener("submit", function(e){
 
-  (function () {
-    emailjs.init({
-      publicKey: "LK8Qn8Y6qTbAVDwho",
-    });
-  })();
+  e.preventDefault();
 
-  const form = document.getElementById("contactForm");
+  const data = {
+    name: form.name.value,
+    email: form.email.value,
+    message: form.message.value
+  };
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
+  fetch("https://script.google.com/macros/s/AKfycbyOrwZJAszLsKIDBSoz7e3LKSMhMUjbOsz0kRPUyPflzlagq-G0xfZRSED-ndV4IAg/exec", {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(res => res.text())
+  .then(() => {
 
-    emailjs.sendForm(
-      "service_t4ylfns",
-      "template_e0jdmme",
-      this
-    ).then(
-      function () {
-        alert("Message sent successfully!");
-        form.reset();
-      },
-      function (error) {
-        console.log(error);
-        alert("Failed to send message");
-      }
-    );
+    alert("Message sent successfully!");
+    form.reset();
+
+  })
+  .catch(() => {
+
+    alert("Something went wrong");
+
   });
 
 });
