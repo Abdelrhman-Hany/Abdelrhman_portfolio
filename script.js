@@ -155,8 +155,9 @@ form.addEventListener("submit", async function(e) {
 
 // function sendEmail()
 (function(){
-emailjs.init("LK8Qn8Y6qTbAVDwho");
-})();
+emailjs.init({
+  publicKey: "LK8Qn8Y6qTbAVDwho",
+});
 
 const form = document.getElementById("contactForm");
 
