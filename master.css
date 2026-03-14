@@ -501,6 +501,18 @@ img {
     transition:all .35s ease;
 }
 
+/* scroll animation */
+.hidden-card{
+opacity:0;
+transform:translateY(30px);
+transition:opacity .6s ease, transform .6s ease;
+}
+
+.show-card{
+opacity:1;
+transform:translateY(0);
+}
+
 .services-grid:hover .service-card{
     opacity:0.35;
     transform:scale(.95);
@@ -508,7 +520,7 @@ img {
 
 .services-grid .service-card:hover{
     opacity:1;
-    transform: translateY(-5px);
+    transform: scale(1) translateY(-5px);
     box-shadow: 0 8px 25px rgba(123, 44, 255, 0.4);
     border-color:#7b2cff;
 }
