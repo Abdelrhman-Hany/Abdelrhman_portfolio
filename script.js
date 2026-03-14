@@ -155,31 +155,37 @@ form.addEventListener("submit", async function(e) {
 // google form
 const form = document.getElementById("contactForm");
 
-form.addEventListener("submit", function(e){
+const form = document.getElementById("contactForm");
 
-  e.preventDefault();
+if (form) {
 
-  const data = {
-    name: form.name.value,
-    email: form.email.value,
-    message: form.message.value
-  };
+  form.addEventListener("submit", function(e){
 
-  fetch("https://script.google.com/macros/s/AKfycbyOrwZJAszLsKIDBSoz7e3LKSMhMUjbOsz0kRPUyPflzlagq-G0xfZRSED-ndV4IAg/exec", {
-    method: "POST",
-    body: JSON.stringify(data)
-  })
-  .then(res => res.text())
-  .then(() => {
+    e.preventDefault();
 
-    alert("Message sent successfully!");
-    form.reset();
+    const data = {
+      name: form.name.value,
+      email: form.email.value,
+      message: form.message.value
+    };
 
-  })
-  .catch(() => {
+    fetch("PUT_SCRIPT_URL_HERE", {
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+    .then(res => res.text())
+    .then(() => {
 
-    alert("Something went wrong");
+      alert("Message sent successfully!");
+      form.reset();
+
+    })
+    .catch(() => {
+
+      alert("Something went wrong");
+
+    });
 
   });
 
-});
+}
