@@ -75,28 +75,27 @@ const contactForm = document.getElementById("contactForm");
 contactForm.addEventListener("submit", async function(e) {
   e.preventDefault();
 
+  const button = contactForm.querySelector("button");
   const formData = new FormData(contactForm);
 
-  try {
-    const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbwvzkNoL9Je5l_8_50bWzHAg_m7KLfqhrWCfAbRE3wGKzFCkWVR-C7ojWHFWKKz4dWx/exec",
-      {
-        method: "POST",
-        body: formData
-      }
-    );
+  button.disabled = true;
+  button.innerText = "Sending...";
 
-    if (response.ok) {
-      alert("Message sent successfully!");
-      contactForm.reset();
-    } else {
-      alert("Failed to send message");
-    }
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbwvzkNoL9Je5l_8_50bWzHAg_m7KLfqhrWCfAbRE3wGKzFCkWVR-C7ojWHFWKKz4dWx/exec", {
+      method: "POST",
+      body: formData
+    });
+
+    alert("Message sent successfully!");
+    contactForm.reset();
 
   } catch (error) {
-    console.error(error);
     alert("Error sending message");
   }
+
+  button.disabled = false;
+  button.innerText = "Send Message";
 });
 
 // ========== Smooth Scroll for Internal Links ==========
