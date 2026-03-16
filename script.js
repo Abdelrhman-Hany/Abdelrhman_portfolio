@@ -70,26 +70,33 @@ tabBtns.forEach(btn => {
 });
 
 // ========== Contact Form Submission ==========
-const contactForm = document.getElementById('contactForm');
+const contactForm = document.getElementById("contactForm");
 
-contactForm.addEventListener('submit', (e) => {
+contactForm.addEventListener("submit", async function(e) {
   e.preventDefault();
 
   const formData = new FormData(contactForm);
-  const name = formData.get('name');
-  const email = formData.get('email');
-  const message = formData.get('message');
 
-  // Basic validation
-  if (!name || !email || !message) {
-    alert('Please fill in all fields.');
-    return;
+  try {
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycbwvzkNoL9Je5l_8_50bWzHAg_m7KLfqhrWCfAbRE3wGKzFCkWVR-C7ojWHFWKKz4dWx/exec",
+      {
+        method: "POST",
+        body: formData
+      }
+    );
+
+    if (response.ok) {
+      alert("Message sent successfully!");
+      contactForm.reset();
+    } else {
+      alert("Failed to send message");
+    }
+
+  } catch (error) {
+    console.error(error);
+    alert("Error sending message");
   }
-
-  // Here you would typically send the data to a server
-  // For now, we'll just show a success message
-  alert(`Thank you, ${name}! Your message has been sent successfully.`);
-  contactForm.reset();
 });
 
 // ========== Smooth Scroll for Internal Links ==========
