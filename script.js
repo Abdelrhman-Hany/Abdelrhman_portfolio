@@ -71,31 +71,95 @@ tabBtns.forEach(btn => {
 
 // ========== Contact Form Submission ==========
 const contactForm = document.getElementById("contactForm");
+const contactSubmitButton = contactForm.querySelector(".contact-submit-btn");
+const submitButtonLabel = contactSubmitButton.querySelector(".submit-button-label");
+const submitIcon = contactSubmitButton.querySelector(".submit-icon");
+const submitSpinner = contactSubmitButton.querySelector(".submit-spinner");
+const contactNotification = document.getElementById("contactNotification");
+const contactNotificationTitle = document.getElementById("contactNotificationTitle");
+const contactNotificationDescription = document.getElementById("contactNotificationDescription");
+const notificationCloseButton = contactNotification.querySelector(".notification-close");
+let notificationTimeout;
+let notificationHideTimeout;
+let isSubmitting = false;
+
+function hideContactNotification() {
+  clearTimeout(notificationTimeout);
+  contactNotification.classList.remove("is-visible");
+  clearTimeout(notificationHideTimeout);
+  notificationHideTimeout = setTimeout(() => {
+    if (!contactNotification.classList.contains("is-visible")) {
+      contactNotification.hidden = true;
+    }
+  }, 300);
+}
+
+function showContactNotification(type) {
+  clearTimeout(notificationTimeout);
+  clearTimeout(notificationHideTimeout);
+
+  const isSuccess = type === "success";
+  contactNotification.classList.toggle("is-success", isSuccess);
+  contactNotification.classList.toggle("is-error", !isSuccess);
+  contactNotification.setAttribute("role", isSuccess ? "status" : "alert");
+  contactNotification.setAttribute("aria-live", isSuccess ? "polite" : "assertive");
+  contactNotificationTitle.textContent = isSuccess
+    ? "Message Sent Successfully!"
+    : "Message Couldn't Be Sent";
+  contactNotificationDescription.textContent = isSuccess
+    ? "Thanks for reaching out! Your message has been delivered. I'll get back to you soon."
+    : "Something went wrong. Please try again.";
+  contactNotification.hidden = false;
+  contactNotification.classList.remove("is-visible");
+  requestAnimationFrame(() => contactNotification.classList.add("is-visible"));
+
+  if (isSuccess) {
+    notificationTimeout = setTimeout(hideContactNotification, 6000);
+  }
+}
+
+notificationCloseButton.addEventListener("click", hideContactNotification);
 
 contactForm.addEventListener("submit", async function(e) {
   e.preventDefault();
 
-  const button = contactForm.querySelector("button");
+  if (isSubmitting) return;
+
+  isSubmitting = true;
   const formData = new FormData(contactForm);
 
-  button.disabled = true;
-  button.innerText = "Sending...";
+  contactSubmitButton.disabled = true;
+  contactSubmitButton.classList.add("is-loading");
+  contactSubmitButton.setAttribute("aria-busy", "true");
+  submitButtonLabel.textContent = "Sending Message...";
+  submitIcon.hidden = true;
+  submitSpinner.hidden = false;
 
   try {
-    await fetch("https://script.google.com/macros/s/AKfycbwvzkNoL9Je5l_8_50bWzHAg_m7KLfqhrWCfAbRE3wGKzFCkWVR-C7ojWHFWKKz4dWx/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwvzkNoL9Je5l_8_50bWzHAg_m7KLfqhrWCfAbRE3wGKzFCkWVR-C7ojWHFWKKz4dWx/exec", {
       method: "POST",
       body: formData
     });
 
-    alert("Message sent successfully!");
+    if (!response.ok) {
+      throw new Error(`Contact form request failed with status ${response.status}`);
+    }
+
     contactForm.reset();
+    showContactNotification("success");
 
   } catch (error) {
-    alert("Error sending message");
+    console.error("Contact form submission failed:", error);
+    showContactNotification("error");
+  } finally {
+    isSubmitting = false;
+    contactSubmitButton.disabled = false;
+    contactSubmitButton.classList.remove("is-loading");
+    contactSubmitButton.removeAttribute("aria-busy");
+    submitButtonLabel.textContent = "Send Message";
+    submitSpinner.hidden = true;
+    submitIcon.hidden = false;
   }
-
-  button.disabled = false;
-  button.innerText = "Send Message";
 });
 
 // ========== Smooth Scroll for Internal Links ==========
